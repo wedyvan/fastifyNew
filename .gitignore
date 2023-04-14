@@ -1,0 +1,11 @@
+# Arquivos que devem ser ignorados
+node_modules/
+dist/
+build/
+*.log
+*.env
+
+# Arquivos que devem ser incluídos
+!src/
+!src/*.ts
+!src/**/*.ts
