@@ -1,4 +1,4 @@
-import * as oracledb from "oracledb";
+import oracledb from "oracledb";
 import { execute } from "../database/conn";
 
 const functionMV = `mvintegra.pkg_sol_limpeza.consultar_leitos()`;

@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import jwt from "jsonwebtoken";
+
+import { verify } from "jsonwebtoken";
 
 export async function jwtMiddleware(
   request: FastifyRequest,
@@ -17,7 +18,7 @@ export async function jwtMiddleware(
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, `1234`);
+    const decoded = verify(token, `1234`);
     request.user = decoded;
     next();
   } catch (error) {

@@ -4,7 +4,7 @@
 
 /* eslint-disable eol-last */
 require("dotenv").config();
-import * as oracledb from "oracledb";
+import oracledb from "oracledb";
 import { dbConfig } from "./configDatabase";
 const fs = require("fs");
 
@@ -41,7 +41,7 @@ export const close = async () => {
 console.log(dbConfig);
 
 // função para executar query SQL.
-export async function execute(statement: string, binds = {}, opts = {}) {
+export async function execute(statement: string, binds?: {}, opts?: {}) {
   interface Row {
     [key: string]: any;
   }
@@ -62,8 +62,8 @@ export async function execute(statement: string, binds = {}, opts = {}) {
       const row = await resultSet.getRows();
       await resultSet.close();
       return row;
-    } else if (Object.keys(binds).length === 0) {
-      const result = await connection.execute(statement, binds, opts); // executar consulta no banco de dados
+    } else if (binds === undefined || binds === null) {
+      const result = await connection.execute(statement); // executar consulta no banco de dados
       //Percorrendo o retorna do consulta e retornando as colunas com seu valor como um array
       const rows: Row[] = [];
       result.rows?.forEach((row) => {

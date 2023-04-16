@@ -1,4 +1,4 @@
-import * as oracledb from "oracledb";
+import oracledb from "oracledb";
 import { execute } from "../database/conn";
 const packageMVM = `mvintegra.pkg_sol_limpeza.prc_consulta_solicitacao`;
 // Função que irá executar a consulta no banco de dados

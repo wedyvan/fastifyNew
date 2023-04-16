@@ -1,4 +1,4 @@
-import * as oracledb from "oracledb";
+import oracledb from "oracledb";
 import { execute } from "../database/conn";
 
 export interface IUpdateCleanParams {
@@ -31,17 +31,23 @@ export const updateClean = async (params: IUpdateCleanParams) => {
         type: oracledb.NUMBER,
         val: cd_funcionario,
       },
+      pData: {
+        dir: oracledb.BIND_IN,
+        type: oracledb.DATE,
+        val: new Date(),
+      },
       pCdTxtMensagem: {
         dir: oracledb.BIND_OUT,
         type: oracledb.STRING,
         maxSize: 200,
       },
     };
+
     const opts = {
       outFormat: oracledb.OUT_FORMAT_OBJECT,
     };
     const result = await execute(
-      `BEGIN ${packageMV}(:pCdSolicitacao, :pCdTpLimpeza, :pCdFuncionario, :pCdTxtMensagem); END;`,
+      `BEGIN ${packageMV}(:pCdSolicitacao, :pData, :pCdTpLimpeza, :pCdFuncionario, :pCdTxtMensagem); END;`,
       bindVars,
       opts
     );

@@ -71,12 +71,12 @@ export const updateCleanLeitos = async (
     cd_funcionario: z.number(),
   });
 
-  type BodyParams = z.infer<typeof updateCleanSchema>;
+  // type BodyParams = z.infer<typeof updateCleanSchema>;
 
   try {
     const params: IUpdateCleanParams = updateCleanSchema.parse(
       request.body
-    ) as BodyParams;
+    ) as IUpdateCleanParams;
     const result = await updateClean(params);
     return reply.status(200).send({ result });
   } catch (error) {
