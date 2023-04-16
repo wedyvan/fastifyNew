@@ -1,44 +1,48 @@
 import fastify from "fastify";
 import { startup } from "./database/dataBaseInit";
 import { appRoutes } from "./routes";
-import swagger from '@fastify/swagger';
-import swaggerUi from '@fastify/swagger-ui';
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
 
 const options = {
-    exposeRoute: true,
-    routePrefix: '/documentation',
-    swagger: {
-      info: {
-        title: 'Zeladoria',
-        description: 'API para o módulo de zeladoria',
-        version: '1.0.0'
+  exposeRoute: true,
+  routePrefix: "/documentation",
+  swagger: {
+    info: {
+      title: "Zeladoria",
+      description: "API para o módulo de zeladoria",
+      version: "1.0.0",
+    },
+    tags: [
+      {
+        name: "solicitacao",
+        description: "Operações relacionadas a solicitações",
       },
-      tags: [
-        { name: 'solicitacao', description: 'Operações relacionadas a solicitações' }
-      ],
-      // Aqui você pode adicionar opções adicionais do Swagger, como esquemas e definições.
-    }
-  }
+    ],
+    // Aqui você pode adicionar opções adicionais do Swagger, como esquemas e definições.
+  },
+};
 
 const optionUi = {
-    routePrefix: '/documentation',
-    swaggerOptions: {},
-    exposeRoute: true,
-}
+  routePrefix: "/documentation",
+  swaggerOptions: {},
+  exposeRoute: true,
+};
 
 const app = fastify();
-app.register(swagger, options)
-app.register(swaggerUi, optionUi)
-app.register(appRoutes)
-
+app.register(swagger, options);
+app.register(swaggerUi, optionUi);
+app.register(appRoutes);
 
 const start = async () => {
   await startup();
-  app.listen({
-    port: 3000,
-  }).then(() => {
-    console.log("listening on port 3000")
-  });
-}
+  app
+    .listen({
+      port: 3000,
+    })
+    .then(() => {
+      console.log("listening on port 3000");
+    });
+};
 
 start();
