@@ -49,7 +49,7 @@ export const updateClean = async (params: IUpdateCleanParams) => {
     return resultSet;
   } catch (error) {
     throw new Error(
-      `Erro ao atualizar a limpeza da solicitação ${solicitacao}: ${error.message}`
+      `Erro ao atualizar a limpeza da solicitação ${cd_solicitacao}: ${error.message}`
     );
   }
 };
