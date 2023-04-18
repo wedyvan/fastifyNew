@@ -6,6 +6,16 @@ import {
   updateClean,
   IUpdateCleanParams,
 } from "../../services/confirmaLimpeza.services";
+/**
+ * Função genérica para lidar com erros de validação do Zod
+ */
+ const handleValidationError = (error: z.ZodError, reply: FastifyReply) => {
+  const errors = error.errors.map((err) => {
+    const message = err.message.replace(/"/g, "'");
+    return `${err.path.join(".")} ${message}`;
+  });
+  return reply.status(400).send({ message: "Validation Error", errors });
+};
 
 export const getRequestHandle = async (
   request: FastifyRequest,
@@ -34,11 +44,7 @@ export const getRequestHandle = async (
     reply.status(200).send(result);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errors = error.errors.map((err) => {
-        const message = err.message.replace(/"/g, "'");
-        return `${err.path.join(".")} ${message}`;
-      });
-      return reply.status(400).send({ message: "Validation Error", errors });
+      return handleValidationError(error, reply);
     }
     return reply.status(400).send(error);
   }
@@ -81,12 +87,9 @@ export const updateCleanLeitos = async (
     return reply.status(200).send({ result });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errors = error.errors.map((err) => {
-        const message = err.message.replace(/"/g, "'");
-        return `${err.path.join(".")} ${message}`;
-      });
-      return reply.status(400).send({ message: "Validation Error", errors });
+      return handleValidationError(error, reply);
     }
+    return reply.status(400).send(error);
   }
 };
 

@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 
 import { verify } from "jsonwebtoken";
+const secret = process.env.SECURITY_KEY_JWT
 
 export async function jwtMiddleware(
   request: FastifyRequest,
@@ -18,7 +19,7 @@ export async function jwtMiddleware(
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = verify(token, `1234`);
+    const decoded = verify(token, secret);
     request.user = decoded;
     next();
   } catch (error) {

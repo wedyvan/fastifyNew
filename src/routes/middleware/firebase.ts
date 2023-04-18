@@ -4,6 +4,7 @@ import { app } from "../../firebase/firebase.services";
 import { sign, verify } from "jsonwebtoken";
 
 const auth = getAuth(app);
+const secret = process.env.SECURITY_KEY_JWT
 
 export async function authMiddleware(
   request: FastifyRequest,
@@ -28,8 +29,8 @@ export async function authMiddleware(
       username,
       password
     );
-    const token = sign({ userId: username }, `1234`, { expiresIn: "1h" });
-    const decoded = verify(token, `1234`);
+    const token = sign({ userId: username }, secret, { expiresIn: "1h" });
+    const decoded = verify(token, secret);
     request.user = decoded;
     request.token = token;
     next();

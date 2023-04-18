@@ -32,18 +32,24 @@ export async function appRoutes(app: FastifyInstance) {
     method: "GET",
     url: "/leitos",
     preHandler: jwtMiddleware,
+    schema: {
+      description: "Endpoint para buscar leitos vagos",
+      tags: ["leitos"],
+    },
     handler: getLeitosVagos,
-  }),
-    app.route({
-      method: "POST",
-      url: "/ConfirmarLimpeza",
-      preHandler: jwtMiddleware,
-      handler: updateCleanLeitos,
-    });
+  });
+
+  app.route({
+    method: "POST",
+    url: "/ConfirmarLimpeza",
+    preHandler: jwtMiddleware,
+    handler: updateCleanLeitos,
+  });
 
   app.route({
     method: "GET",
     url: "/",
+    preHandler: jwtMiddleware,
     handler: teste,
   });
 

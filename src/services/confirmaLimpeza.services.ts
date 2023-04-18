@@ -11,46 +11,32 @@ export interface IUpdateCleanResult {
 }
 const packageMV = "mvintegra.pkg_sol_limpeza.prc_confirmar_solicitacao";
 
+const BIND_IN = oracledb.BIND_IN;
+const NUMBER = oracledb.NUMBER;
+const DATE = oracledb.DATE;
+const STRING = oracledb.STRING;
+
+const bindVars = {
+  pCdSolicitacao: { dir: BIND_IN, type: NUMBER },
+  pCdTpLimpeza: { dir: BIND_IN, type: NUMBER },
+  pCdFuncionario: { dir: BIND_IN, type: NUMBER },
+  pData: { dir: BIND_IN, type: DATE, val: new Date() },
+  pCdTxtMensagem: { dir: oracledb.BIND_OUT, type: STRING, maxSize: 200 },
+};
+
 export const updateClean = async (params: IUpdateCleanParams) => {
   const { cd_solicitacao, cd_tpLimpeza, cd_funcionario } = params;
-
+  const variables = {
+    pCdSolicitacao: cd_solicitacao,
+    pCdTpLimpeza: cd_tpLimpeza,
+    pCdFuncionario: cd_funcionario,
+  };
+  const sql = `BEGIN ${packageMV}(:pCdSolicitacao, :pData, :pCdTpLimpeza, :pCdFuncionario, :pCdTxtMensagem); END;`;
   try {
-    const bindVars = {
-      pCdSolicitacao: {
-        dir: oracledb.BIND_IN,
-        type: oracledb.NUMBER,
-        val: cd_solicitacao,
-      },
-      pCdTpLimpeza: {
-        dir: oracledb.BIND_IN,
-        type: oracledb.NUMBER,
-        val: cd_tpLimpeza,
-      },
-      pCdFuncionario: {
-        dir: oracledb.BIND_IN,
-        type: oracledb.NUMBER,
-        val: cd_funcionario,
-      },
-      pData: {
-        dir: oracledb.BIND_IN,
-        type: oracledb.DATE,
-        val: new Date(),
-      },
-      pCdTxtMensagem: {
-        dir: oracledb.BIND_OUT,
-        type: oracledb.STRING,
-        maxSize: 200,
-      },
-    };
-
     const opts = {
       outFormat: oracledb.OUT_FORMAT_OBJECT,
     };
-    const result = await execute(
-      `BEGIN ${packageMV}(:pCdSolicitacao, :pData, :pCdTpLimpeza, :pCdFuncionario, :pCdTxtMensagem); END;`,
-      bindVars,
-      opts
-    );
+    const result = await execute(sql, { ...bindVars, ...variables }, opts);
     const resultSet = result.outBinds.pCdTxtMensagem;
     return resultSet;
   } catch (error) {
