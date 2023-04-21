@@ -1,13 +1,15 @@
+import { confirmarLeito } from './../../schema';
 import { FastifyInstance } from "fastify";
 import { teste } from "../services/teste.services";
-import {
-  getLeitosVagos,
-  getRequestHandle,
-  login,
-  updateCleanLeitos,
-} from "./controllers/userController";
+import { updateCleanLeitos } from "./controllers/confirmarLimpeza";
+import { getLeitosVagos } from "./controllers/leitos";
+import { login } from "./controllers/login";
+import { getRequestHandle } from "./controllers/requestHandle";
 import { authMiddleware } from "./middleware/firebase";
 import { jwtMiddleware } from "./middleware/jwtVeify";
+
+
+
 
 export async function appRoutes(app: FastifyInstance) {
   app.route({
@@ -41,10 +43,12 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.route({
     method: "POST",
-    url: "/ConfirmarLimpeza",
+    url: "/ConfirmarSolicitacao",
     preHandler: jwtMiddleware,
-    handler: updateCleanLeitos,
+    schema: confirmarLeito,
+    handler: updateCleanLeitos
   });
+  
 
   app.route({
     method: "GET",
@@ -54,7 +58,7 @@ export async function appRoutes(app: FastifyInstance) {
   });
 
   app.route({
-    method: "GET",
+    method: "POST",
     url: "/login",
     preHandler: authMiddleware,
     handler: login,
