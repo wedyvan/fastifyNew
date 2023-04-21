@@ -13,13 +13,7 @@ const options = {
       description: "API para o módulo de zeladoria",
       version: "1.0.0",
     },
-    securityDefinitions: {
-      bearerAuth: {
-        type: "apiKey",
-        name: "Authorization",
-        in: "header",
-      },
-    },
+
     security: [{ bearerAuth: [] }],
     tags: [
       {

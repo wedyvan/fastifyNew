@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { app } from "../../firebase/firebase.services";
+import { app } from "../../services/firebase.services";
 import { sign, verify } from "jsonwebtoken";
 
 const auth = getAuth(app);
