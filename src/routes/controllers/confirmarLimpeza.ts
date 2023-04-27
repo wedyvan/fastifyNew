@@ -32,7 +32,7 @@ export const updateCleanLeitos = async (
       request.body
     ) as IUpdateCleanParams;
     const result = await updateClean(params);
-    return reply.status(200).send({ result });
+    return reply.status(200).send(result);
   } catch (error) {
     if (error instanceof z.ZodError) {
       return handleValidationError(error, reply);

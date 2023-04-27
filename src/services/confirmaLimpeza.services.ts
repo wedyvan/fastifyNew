@@ -20,7 +20,6 @@ const bindVars = {
   pCdSolicitacao: { dir: BIND_IN, type: NUMBER },
   pCdTpLimpeza: { dir: BIND_IN, type: NUMBER },
   pCdFuncionario: { dir: BIND_IN, type: NUMBER },
-  pData: { dir: BIND_IN, type: DATE, val: new Date() },
   pCdTxtMensagem: { dir: oracledb.BIND_OUT, type: STRING, maxSize: 200 },
 };
 
@@ -31,14 +30,15 @@ export const updateClean = async (params: IUpdateCleanParams) => {
     pCdTpLimpeza: cd_tpLimpeza,
     pCdFuncionario: cd_funcionario,
   };
-  const sql = `BEGIN ${packageMV}(:pCdSolicitacao, :pData, :pCdTpLimpeza, :pCdFuncionario, :pCdTxtMensagem); END;`;
+  const sql = `BEGIN ${packageMV}(:pCdSolicitacao, :pCdTpLimpeza, :pCdFuncionario, :pCdTxtMensagem); END;`;
   try {
     const opts = {
       outFormat: oracledb.OUT_FORMAT_OBJECT,
     };
-    const result = await execute(sql, { ...bindVars, ...variables }, opts);
-    const resultSet = result.outBinds.pCdTxtMensagem;
-    return resultSet;
+    const resultado = await execute(sql, { ...bindVars, ...variables }, opts);
+    const resultSet = resultado.outBinds.pCdTxtMensagem;
+    console.log("🚀 ~ file: confirmaLimpeza.services.ts:40 ~ updateClean ~ resultSet:", resultSet)
+    return {Message: resultSet}
   } catch (error) {
     throw new Error(
       `Erro ao atualizar a limpeza da solicitação ${cd_solicitacao}: ${error.message}`

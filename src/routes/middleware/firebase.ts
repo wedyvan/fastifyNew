@@ -13,7 +13,7 @@ export async function authMiddleware(
 ) {
   const authHeader = request.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Basic ")) {
-    response.status(401).send("Unauthorized");
+    response.status(401).send({Message: "Unauthorized"});
     return;
   }
 

@@ -43,7 +43,7 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.route({
     method: "POST",
-    url: "/ConfirmarSolicitacao",
+    url: "/ConfirmarLimpeza",
     preHandler: jwtMiddleware,
     schema: confirmarLeito,
     handler: updateCleanLeitos

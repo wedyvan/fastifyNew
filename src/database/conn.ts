@@ -38,7 +38,6 @@ export const close = async () => {
   console.log("Connection pool closed successfully");
 };
 
-console.log(dbConfig);
 
 // função para executar query SQL.
 export async function execute(statement: string, binds?: {}, opts?: {}) {
@@ -58,10 +57,10 @@ export async function execute(statement: string, binds?: {}, opts?: {}) {
     if (hasCursor) {
       const result = await connection.execute(statement, binds, opts);
       const resultSet = result.outBinds.p_cursor;
-
+      const resultOut = result.outBinds
       const row = await resultSet.getRows();
       await resultSet.close();
-      return row;
+      return [row, resultOut];
     } else if (binds === undefined || binds === null) {
       const result = await connection.execute(statement); // executar consulta no banco de dados
       //Percorrendo o retorna do consulta e retornando as colunas com seu valor como um array

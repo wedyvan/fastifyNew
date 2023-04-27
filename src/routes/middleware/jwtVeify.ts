@@ -11,7 +11,7 @@ export async function jwtMiddleware(
   // Obtém o token da requisição
   const authHeader = request.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    response.status(401).send("Unauthorized");
+    response.status(401).send({Message: "Unauthorized"});
     return;
   }
 
