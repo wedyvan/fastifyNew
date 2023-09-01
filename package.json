@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "prod": "node dist/src/server.js"
+
   },
   "author": "",
   "license": "ISC",
